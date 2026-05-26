@@ -5,727 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>비상장주식 가치평가 시스템 | 상증세법 보충적 평가방법</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --navy-deep: #0d1b2a;
-    --navy: #1b2d45;
-    --navy-mid: #243d5e;
-    --navy-light: #2e5077;
-    --gold: #c9a84c;
-    --gold-light: #e8c97a;
-    --gold-pale: #f5e9c8;
-    --ivory: #f8f5ef;
-    --ivory-dark: #ede8de;
-    --text-main: #1a1a2e;
-    --text-muted: #5a6475;
-    --text-light: #8a95a3;
-    --success: #2a7d55;
-    --error: #c0392b;
-    --warning: #d68910;
-    --border: #d5cfc4;
-    --border-light: #e8e3da;
-    --shadow: 0 4px 24px rgba(13,27,42,0.10);
-    --shadow-lg: 0 12px 48px rgba(13,27,42,0.16);
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--ivory);
-    color: var(--text-main);
-    min-height: 100vh;
-    font-size: 14px;
-    line-height: 1.7;
-  }
-
-  /* ── 헤더 ── */
-  .site-header {
-    background: var(--navy-deep);
-    padding: 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.3);
-  }
-  .header-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 18px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .logo-area { display: flex; align-items: center; gap: 14px; }
-  .logo-icon {
-    width: 40px; height: 40px;
-    background: var(--gold);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Noto Serif KR', serif;
-    font-weight: 700;
-    font-size: 18px;
-    color: var(--navy-deep);
-    flex-shrink: 0;
-  }
-  .logo-text { font-family: 'Noto Serif KR', serif; }
-  .logo-text h1 { font-size: 17px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
-  .logo-text p { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 1px; letter-spacing: 0.5px; }
-  .law-badge {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--gold);
-    background: rgba(201,168,76,0.12);
-    border: 1px solid rgba(201,168,76,0.3);
-    padding: 4px 10px;
-    border-radius: 4px;
-  }
-
-  /* ── 메인 레이아웃 ── */
-  .main-wrap {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 40px 32px 80px;
-  }
-
-  /* ── 인트로 배너 ── */
-  .intro-banner {
-    background: var(--navy);
-    border-radius: 12px;
-    padding: 28px 36px;
-    margin-bottom: 36px;
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    position: relative;
-    overflow: hidden;
-  }
-  .intro-banner::before {
-    content: '';
-    position: absolute;
-    top: 0; right: 0;
-    width: 240px; height: 100%;
-    background: linear-gradient(135deg, transparent 40%, rgba(201,168,76,0.07));
-  }
-  .intro-banner::after {
-    content: '';
-    position: absolute;
-    bottom: -30px; right: 40px;
-    width: 120px; height: 120px;
-    border: 2px solid rgba(201,168,76,0.12);
-    border-radius: 50%;
-  }
-  .intro-icon {
-    font-size: 28px;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .intro-content h2 {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 8px;
-  }
-  .intro-content p { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.8; }
-  .law-refs {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    margin-top: 12px;
-  }
-  .law-ref {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10.5px;
-    color: var(--gold);
-    background: rgba(201,168,76,0.1);
-    border: 1px solid rgba(201,168,76,0.25);
-    padding: 3px 8px;
-    border-radius: 3px;
-  }
-
-  /* ── 섹션 카드 ── */
-  .card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    margin-bottom: 28px;
-    overflow: hidden;
-    border: 1px solid var(--border-light);
-  }
-  .card-header {
-    background: var(--navy);
-    padding: 18px 28px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .card-header-left { display: flex; align-items: center; gap: 12px; flex: 1; }
-  .step-badge {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--navy-deep);
-    background: var(--gold);
-    padding: 3px 10px;
-    border-radius: 3px;
-    letter-spacing: 0.5px;
-  }
-  .card-title {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 16px;
-    font-weight: 700;
-    color: #fff;
-  }
-  .card-subtitle {
-    font-size: 11px;
-    color: rgba(255,255,255,0.5);
-    font-family: 'IBM Plex Mono', monospace;
-    margin-left: auto;
-  }
-  .card-body { padding: 28px; }
-
-  /* ── 연도 탭 ── */
-  .year-tabs {
-    display: flex;
-    gap: 0;
-    margin-bottom: 24px;
-    border-bottom: 2px solid var(--border);
-  }
-  .year-tab {
-    padding: 10px 24px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-muted);
-    cursor: pointer;
-    border: none;
-    background: none;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -2px;
-    transition: all 0.2s;
-    font-family: 'Noto Sans KR', sans-serif;
-    position: relative;
-  }
-  .year-tab:hover { color: var(--navy); }
-  .year-tab.active {
-    color: var(--navy);
-    border-bottom-color: var(--gold);
-    font-weight: 600;
-  }
-  .year-tab .weight-chip {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    background: var(--gold-pale);
-    color: var(--warning);
-    padding: 1px 5px;
-    border-radius: 2px;
-    margin-left: 6px;
-  }
-  .year-panel { display: none; }
-  .year-panel.active { display: block; }
-
-  /* ── 입력 그리드 ── */
-  .input-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-  .input-grid.three-col { grid-template-columns: 1fr 1fr 1fr; }
-  .input-group { display: flex; flex-direction: column; gap: 6px; }
-  .input-group.full { grid-column: 1 / -1; }
-
-  .input-label {
-    font-size: 12.5px;
-    font-weight: 600;
-    color: var(--text-main);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .input-label .required {
-    color: var(--error);
-    font-size: 14px;
-    line-height: 1;
-  }
-  .tooltip-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 16px; height: 16px;
-    border-radius: 50%;
-    background: var(--navy-light);
-    color: #fff;
-    font-size: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    border: none;
-    font-family: 'IBM Plex Mono', monospace;
-    flex-shrink: 0;
-    position: relative;
-  }
-  .tooltip-btn:hover .tooltip-popup { display: block; }
-  .tooltip-popup {
-    display: none;
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--navy-deep);
-    color: #fff;
-    font-size: 11px;
-    padding: 8px 12px;
-    border-radius: 6px;
-    white-space: nowrap;
-    z-index: 200;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 400;
-    line-height: 1.6;
-    min-width: 220px;
-    text-align: left;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  }
-  .tooltip-popup::after {
-    content: '';
-    position: absolute;
-    top: 100%; left: 50%;
-    transform: translateX(-50%);
-    border: 5px solid transparent;
-    border-top-color: var(--navy-deep);
-  }
-  .law-cite {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: var(--gold);
-    display: block;
-    margin-top: 3px;
-  }
-
-  .input-hint {
-    font-size: 11px;
-    color: var(--text-light);
-    line-height: 1.5;
-  }
-
-  .input-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-  .input-prefix, .input-suffix {
-    position: absolute;
-    font-size: 13px;
-    color: var(--text-muted);
-    font-weight: 500;
-    pointer-events: none;
-  }
-  .input-prefix { left: 12px; }
-  .input-suffix { right: 12px; font-size: 11px; color: var(--text-light); }
-
-  input[type="text"], input[type="number"], input[type="date"], select {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 7px;
-    font-size: 14px;
-    font-family: 'Noto Sans KR', sans-serif;
-    color: var(--text-main);
-    background: var(--ivory);
-    transition: all 0.2s;
-    outline: none;
-  }
-  input[type="text"].has-prefix, input[type="number"].has-prefix { padding-left: 30px; }
-  input[type="text"].has-suffix { padding-right: 36px; }
-  input:focus, select:focus {
-    border-color: var(--navy-light);
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(46,80,119,0.1);
-  }
-  input.error { border-color: var(--error); background: #fff5f5; }
-  input.money {
-    font-family: 'IBM Plex Mono', monospace;
-    text-align: right;
-    padding-right: 40px;
-  }
-  .money-unit {
-    position: absolute;
-    right: 12px;
-    font-size: 11px;
-    color: var(--text-light);
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .error-msg {
-    font-size: 11px;
-    color: var(--error);
-    display: none;
-  }
-  .error-msg.show { display: block; }
-
-  /* ── 구분선 ── */
-  .section-divider {
-    border: none;
-    border-top: 1px dashed var(--border);
-    margin: 24px 0;
-  }
-  .section-label {
-    font-size: 11.5px;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border-light);
-  }
-
-  /* ── 체크박스 ── */
-  .checkbox-group {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 16px 20px;
-    background: var(--ivory);
-    border-radius: 8px;
-    border: 1.5px solid var(--border);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .checkbox-group:hover { border-color: var(--navy-light); }
-  .checkbox-group input[type="checkbox"] {
-    width: 18px; height: 18px;
-    accent-color: var(--navy);
-    cursor: pointer;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .checkbox-text h4 { font-size: 13px; font-weight: 600; color: var(--text-main); }
-  .checkbox-text p { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
-
-  /* ── 계산 버튼 영역 ── */
-  .action-bar {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    align-items: center;
-    margin: 32px 0;
-  }
-  .btn {
-    padding: 14px 36px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    transition: all 0.2s;
-    font-family: 'Noto Sans KR', sans-serif;
-    letter-spacing: -0.3px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .btn-primary {
-    background: var(--navy);
-    color: #fff;
-    box-shadow: 0 4px 16px rgba(27,45,69,0.35);
-  }
-  .btn-primary:hover {
-    background: var(--navy-deep);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(27,45,69,0.4);
-  }
-  .btn-secondary {
-    background: #fff;
-    color: var(--text-muted);
-    border: 1.5px solid var(--border);
-  }
-  .btn-secondary:hover { border-color: var(--navy-light); color: var(--navy); }
-  .btn-print {
-    background: var(--gold);
-    color: var(--navy-deep);
-    box-shadow: 0 4px 16px rgba(201,168,76,0.35);
-  }
-  .btn-print:hover { background: var(--gold-light); transform: translateY(-1px); }
-
-  /* ── 결과 섹션 ── */
-  #result-section { display: none; }
-
-  .result-card {
-    background: var(--navy-deep);
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 28px;
-  }
-  .result-header {
-    padding: 22px 28px;
-    background: rgba(255,255,255,0.04);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .result-header h3 {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 17px;
-    font-weight: 700;
-    color: #fff;
-  }
-  .result-body { padding: 28px; }
-
-  .result-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13.5px;
-  }
-  .result-table th {
-    text-align: left;
-    padding: 10px 14px;
-    font-size: 11px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.45);
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .result-table td {
-    padding: 13px 14px;
-    color: rgba(255,255,255,0.85);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-  .result-table tr:last-child td { border-bottom: none; }
-  .result-table .num {
-    font-family: 'IBM Plex Mono', monospace;
-    text-align: right;
-    color: #fff;
-  }
-  .result-table .highlight-row td {
-    background: rgba(201,168,76,0.1);
-    color: var(--gold-light);
-    font-weight: 600;
-  }
-  .result-table .highlight-row .num {
-    color: var(--gold);
-    font-size: 15px;
-  }
-  .result-table .sub-row td {
-    font-size: 12px;
-    color: rgba(255,255,255,0.5);
-    padding-top: 6px;
-    padding-bottom: 6px;
-  }
-  .result-table .formula-cell {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11.5px;
-    color: rgba(255,255,255,0.5);
-  }
-
-  /* 최종 결과 강조박스 */
-  .final-result-box {
-    background: linear-gradient(135deg, var(--navy-mid), var(--navy-light));
-    border-radius: 10px;
-    padding: 24px 28px;
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid rgba(201,168,76,0.2);
-  }
-  .final-result-label { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.8); }
-  .final-result-label small {
-    display: block;
-    font-size: 11px;
-    color: rgba(255,255,255,0.45);
-    margin-top: 3px;
-    font-weight: 400;
-  }
-  .final-result-value {
-    text-align: right;
-  }
-  .final-result-value .per-share {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--gold);
-  }
-  .final-result-value .total-val {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    color: rgba(255,255,255,0.6);
-    margin-top: 4px;
-    text-align: right;
-  }
-
-  /* ── 계산과정 펼치기 ── */
-  .process-card {
-    background: #fff;
-    border: 1px solid var(--border-light);
-    border-radius: 10px;
-    margin-bottom: 16px;
-    overflow: hidden;
-  }
-  .process-toggle {
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    user-select: none;
-    background: var(--ivory);
-    transition: background 0.2s;
-  }
-  .process-toggle:hover { background: var(--ivory-dark); }
-  .process-toggle h4 {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--navy);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .process-toggle .arrow {
-    font-size: 12px;
-    color: var(--text-muted);
-    transition: transform 0.2s;
-  }
-  .process-toggle.open .arrow { transform: rotate(180deg); }
-  .process-content {
-    display: none;
-    padding: 20px;
-    border-top: 1px solid var(--border-light);
-  }
-  .process-content.open { display: block; }
-
-  .calc-step {
-    display: flex;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px dashed var(--border-light);
-    font-size: 13px;
-    align-items: flex-start;
-  }
-  .calc-step:last-child { border-bottom: none; }
-  .calc-step-label {
-    min-width: 160px;
-    color: var(--text-muted);
-    font-size: 12px;
-    flex-shrink: 0;
-    padding-top: 1px;
-  }
-  .calc-step-formula {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12.5px;
-    color: var(--navy);
-    flex: 1;
-  }
-  .calc-step-result {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--navy-deep);
-    text-align: right;
-    min-width: 120px;
-  }
-
-  /* ── 주의사항 ── */
-  .notice-box {
-    background: #fff8e6;
-    border: 1px solid #e8c97a;
-    border-left: 4px solid var(--gold);
-    border-radius: 8px;
-    padding: 18px 22px;
-    margin-top: 28px;
-  }
-  .notice-box h4 {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--warning);
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .notice-box ul {
-    list-style: none;
-    padding: 0;
-  }
-  .notice-box ul li {
-    font-size: 12.5px;
-    color: #7d5a00;
-    padding: 3px 0;
-    padding-left: 14px;
-    position: relative;
-    line-height: 1.7;
-  }
-  .notice-box ul li::before {
-    content: '·';
-    position: absolute;
-    left: 0;
-    font-weight: 700;
-  }
-
-  .legal-disclaimer {
-    background: var(--navy-deep);
-    color: rgba(255,255,255,0.5);
-    border-radius: 8px;
-    padding: 16px 22px;
-    font-size: 11.5px;
-    line-height: 1.8;
-    margin-top: 16px;
-    text-align: center;
-  }
-
-  /* ── 인쇄 ── */
-  @media print {
-    .site-header, .action-bar, .btn-print, .intro-banner { display: none !important; }
-    #result-section { display: block !important; }
-    .main-wrap { padding: 0; max-width: 100%; }
-    .result-card { background: #fff !important; border: 1px solid #ccc; }
-    .result-header { background: #f5f5f5; }
-    .result-header h3, .result-table td, .result-table th { color: #000 !important; }
-    .final-result-box { background: #f0f4ff; border: 1px solid #ccc; }
-    .final-result-value .per-share { color: #1b2d45 !important; }
-    .legal-disclaimer { background: #f5f5f5; color: #333 !important; }
-  }
-
-  /* ── 반응형 ── */
-  @media (max-width: 768px) {
-    .header-inner { padding: 14px 16px; }
-    .main-wrap { padding: 20px 16px 60px; }
-    .intro-banner { padding: 20px; flex-direction: column; gap: 12px; }
-    .card-body { padding: 20px; }
-    .input-grid { grid-template-columns: 1fr; }
-    .input-grid.three-col { grid-template-columns: 1fr; }
-    .action-bar { flex-wrap: wrap; }
-    .final-result-box { flex-direction: column; gap: 16px; text-align: center; }
-    .final-result-value { text-align: center; }
-    .law-badge { display: none; }
-  }
-
-  /* 애니메이션 */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .card { animation: fadeUp 0.4s ease both; }
-  .card:nth-child(2) { animation-delay: 0.05s; }
-  .card:nth-child(3) { animation-delay: 0.10s; }
-  .card:nth-child(4) { animation-delay: 0.15s; }
-  #result-section.show { animation: fadeUp 0.5s ease both; }
-
-  .loading-spinner {
-    display: inline-block;
-    width: 16px; height: 16px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    display: none;
-  }
-  .btn-primary.calculating .loading-spinner { display: inline-block; }
-  .btn-primary.calculating .btn-icon { display: none; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-</style>
+<link rel="stylesheet" href="valuation.css">
 </head>
 <body>
 
-<!-- ── 헤더 ── -->
+<!-- ══════════════════════════════════
+     헤더
+════════════════════════════════════ -->
 <header class="site-header">
   <div class="header-inner">
     <div class="logo-area">
@@ -735,31 +21,35 @@
         <p>Unlisted Stock Valuation · Supplementary Appraisal Method</p>
       </div>
     </div>
-    <div class="law-badge">상증세법 §54 · §63</div>
+    <div class="law-badge">상증세법 §54 · §63 | 시행령 §54~§56</div>
   </div>
 </header>
 
 <div class="main-wrap">
 
-  <!-- ── 인트로 배너 ── -->
+  <!-- 인트로 배너 -->
   <div class="intro-banner">
     <div class="intro-icon">⚖️</div>
     <div class="intro-content">
-      <h2>상속세 및 증여세법 보충적 평가방법에 따른 비상장주식 가치평가</h2>
-      <p>본 도구는 「상속세 및 증여세법」 제54조 및 동법 시행령 제54조~제56조에 규정된 보충적 평가방법을 기준으로 합니다.<br>
-         <strong style="color:rgba(255,255,255,0.85)">확인된 회계 수치만</strong> 입력하시고, 추정 또는 가정이 필요한 항목은 세무사·공인회계사와 별도로 협의하십시오.</p>
+      <h2>상속세 및 증여세법 보충적 평가방법 — 실무 조정항목 반영 버전</h2>
+      <p>
+        순손익가치 산정 시 <strong style="color:rgba(255,255,255,.9)">비경상손익·기부금이월손금·환급금이자·벌금/가산세·징수유예공과금</strong> 조정을 반영합니다.<br>
+        순자산가치 산정 시 <strong style="color:rgba(255,255,255,.9)">투자주식 재평가·영업권 세법평가·개발비 제외·대손·퇴직급여추계액·우발부채</strong>를 조정합니다.<br>
+        <span style="color:rgba(255,255,255,.5)">확인된 수치만 입력하고, 불확실한 항목은 세무사·공인회계사와 반드시 확인하십시오.</span>
+      </p>
       <div class="law-refs">
         <span class="law-ref">상증세법 §54</span>
         <span class="law-ref">시행령 §54 순자산가치</span>
+        <span class="law-ref">시행령 §55 순자산가치</span>
         <span class="law-ref">시행령 §56 순손익가치</span>
-        <span class="law-ref">시행령 §63 최대주주할증</span>
-        <span class="law-ref">법인세법 §14 각 사업연도 소득</span>
+        <span class="law-ref">시행령 §59 영업권</span>
+        <span class="law-ref">상증세법 §63③ 할증</span>
       </div>
     </div>
   </div>
 
-  <!-- ════════════════════════════════════
-       SECTION 1 : 기본 정보
+  <!-- ══════════════════════════════════
+       STEP 1 : 법인 기본정보
   ════════════════════════════════════ -->
   <div class="card">
     <div class="card-header">
@@ -771,404 +61,441 @@
     </div>
     <div class="card-body">
       <div class="input-grid three-col">
+
         <div class="input-group">
           <label class="input-label">
             법인명 <span class="required">*</span>
-            <button class="tooltip-btn" tabindex="-1">?
-              <span class="tooltip-popup">평가 대상 비상장법인의 명칭을 입력합니다.</span>
-            </button>
           </label>
           <input type="text" id="companyName" placeholder="예: J주식회사">
           <span class="error-msg" id="err-companyName">법인명을 입력해주세요.</span>
         </div>
+
         <div class="input-group">
-          <label class="input-label">
-            사업자등록번호
-            <button class="tooltip-btn" tabindex="-1">?
-              <span class="tooltip-popup">참고용 입력 항목으로, 계산에는 반영되지 않습니다.</span>
-            </button>
-          </label>
+          <label class="input-label">사업자등록번호</label>
           <input type="text" id="bizNo" placeholder="000-00-00000" maxlength="12">
         </div>
+
         <div class="input-group">
           <label class="input-label">
             평가기준일 <span class="required">*</span>
-            <button class="tooltip-btn" tabindex="-1">?
-              <span class="tooltip-popup">상증세법 §60: 상속·증여 당시의 시가를 산정하는 기준일입니다. 통상 상속개시일 또는 증여일입니다.</span>
+            <button class="tooltip-btn">?
+              <span class="tooltip-popup">상증세법 §60: 상속개시일 또는 증여일이 기준일입니다.<br>형식: YYYY-MM-DD</span>
             </button>
           </label>
-          <input type="text" id="baseDate" placeholder="예: 2025-12-31" maxlength="10">
-          <span class="error-msg" id="err-baseDate">평가기준일을 입력해주세요. (예: 2025-12-31)</span>
+          <input type="text" id="baseDate" placeholder="예: 2024-12-31" maxlength="10">
+          <span class="error-msg" id="err-baseDate">평가기준일을 입력해주세요.</span>
         </div>
+
         <div class="input-group">
           <label class="input-label">
             발행주식 총수 <span class="required">*</span>
-            <button class="tooltip-btn" tabindex="-1">?
-              <span class="tooltip-popup">시행령 §55①: 평가기준일 현재 발행된 주식의 총 수량(보통주 기준)입니다. 자기주식은 제외합니다.</span>
+            <button class="tooltip-btn">?
+              <span class="tooltip-popup">평가기준일 현재 발행주식 총수 (자기주식 제외).<br><span class="law-cite">시행령 §55①</span></span>
             </button>
           </label>
           <div class="input-wrap">
-            <input type="text" id="totalShares" class="money has-suffix" placeholder="0">
+            <input type="text" id="totalShares" class="money" placeholder="0">
             <span class="money-unit">주</span>
           </div>
           <span class="error-msg" id="err-totalShares">발행주식 총수를 입력해주세요.</span>
         </div>
+
         <div class="input-group">
           <label class="input-label">
-            평가대상 주식 수 <span class="required">*</span>
-            <button class="tooltip-btn" tabindex="-1">?
-              <span class="tooltip-popup">C가 실제로 보유하고 있는 평가 대상 주식의 수량입니다.</span>
+            평가대상 주식수 (C 보유) <span class="required">*</span>
+            <button class="tooltip-btn">?
+              <span class="tooltip-popup">C가 보유한 평가 대상 주식 수량입니다.</span>
             </button>
           </label>
           <div class="input-wrap">
-            <input type="text" id="ownedShares" class="money has-suffix" placeholder="0">
+            <input type="text" id="ownedShares" class="money" placeholder="0">
             <span class="money-unit">주</span>
           </div>
           <span class="error-msg" id="err-ownedShares">보유 주식 수를 입력해주세요.</span>
         </div>
+
         <div class="input-group">
-          <label class="input-label">
-            액면가액
-            <button class="tooltip-btn" tabindex="-1">?
-              <span class="tooltip-popup">1주당 액면금액입니다. 참고용으로 사용되며, 보충적 평가방법 계산에는 직접 반영되지 않습니다.</span>
-            </button>
-          </label>
+          <label class="input-label">액면가액</label>
           <div class="input-wrap">
-            <input type="text" id="parValue" class="money has-suffix" placeholder="500 또는 1,000">
+            <input type="text" id="parValue" class="money" placeholder="500 또는 1,000">
             <span class="money-unit">원</span>
           </div>
         </div>
+
       </div>
 
       <hr class="section-divider">
-      <div class="section-label">업종 및 부동산 과다법인 여부</div>
       <div class="input-grid">
         <div class="input-group">
           <label class="input-label">
-            주업종
-            <button class="tooltip-btn" tabindex="-1">?
-              <span class="tooltip-popup">순손익가치·순자산가치 가중치 결정에 영향을 미칩니다. 부동산 과다법인 여부 판단에 필요합니다.</span>
+            법인 유형
+            <button class="tooltip-btn">?
+              <span class="tooltip-popup">부동산 과다법인: 자산총액 중 부동산 비율 80% 이상.<br>가중치 변경: 일반(순손익 60%+순자산 40%) / 부동산(순손익 40%+순자산 60%)<br><span class="law-cite">시행령 §54③</span></span>
             </button>
           </label>
           <select id="bizType">
-            <option value="general">일반법인 (순손익 60% + 순자산 40%)</option>
-            <option value="property">부동산 과다법인 (순손익 40% + 순자산 60%)</option>
+            <option value="general">일반법인 — 순손익 60% + 순자산 40%</option>
+            <option value="property">부동산 과다법인 — 순손익 40% + 순자산 60%</option>
           </select>
-          <span class="input-hint">※ 부동산 과다법인: 자산총액 중 부동산(부동산 관련 주식 포함) 비율 80% 이상 (시행령 §54③)</span>
         </div>
         <div class="input-group">
-          <label class="input-label">사업연도 종료월</label>
+          <label class="input-label">결산월</label>
           <select id="fiscalYearEnd">
-            <option value="12">12월 (12월 결산)</option>
-            <option value="3">3월</option>
-            <option value="6">6월</option>
-            <option value="9">9월</option>
+            <option value="12">12월 결산</option>
+            <option value="3">3월 결산</option>
+            <option value="6">6월 결산</option>
+            <option value="9">9월 결산</option>
           </select>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ════════════════════════════════════
-       SECTION 2 : 순손익가치 (3개년)
+  <!-- ══════════════════════════════════
+       STEP 2 : 순손익가치 (3개년)
   ════════════════════════════════════ -->
   <div class="card">
     <div class="card-header">
       <div class="card-header-left">
         <span class="step-badge">STEP 2</span>
-        <span class="card-title">순손익가치 산정 — 최근 3개 사업연도</span>
+        <span class="card-title">순손익가치 산정 — 최근 3개 사업연도 + 세법 조정항목</span>
       </div>
       <span class="card-subtitle">시행령 §56 · 가중치 3:2:1</span>
     </div>
     <div class="card-body">
-      <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:18px; line-height:1.8;">
-        「상속세 및 증여세법 시행령」 §56①: <strong>1주당 순손익가치 = 최근 3년 가중평균 순손익액 ÷ 순손익가치 환원율(10%)</strong><br>
-        가중치: T년도(최근) × 3, T-1년도 × 2, T-2년도 × 1 → 합계 ÷ 6
+
+      <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:16px;line-height:1.85;">
+        <strong>1주당 순손익가치</strong> = 가중평균 순손익액 ÷ 환원율(10%)<br>
+        순손익액 = (EBT − 법인세) − 비경상손익 <span style="color:var(--add-color)">+ 기부금이월손금 + 환급금이자</span> <span style="color:var(--sub-color)">− 벌금·가산세 − 징수유예공과금</span>
       </p>
+
       <div class="year-tabs">
-        <button class="year-tab active" data-tab="y0">
-          T년도 (최근)<span class="weight-chip">×3</span>
-        </button>
-        <button class="year-tab" data-tab="y1">
-          T-1년도<span class="weight-chip">×2</span>
-        </button>
-        <button class="year-tab" data-tab="y2">
-          T-2년도<span class="weight-chip">×1</span>
-        </button>
+        <button class="year-tab active" data-tab="y0">T년도 (최근)<span class="weight-chip">×3</span></button>
+        <button class="year-tab" data-tab="y1">T-1년도<span class="weight-chip">×2</span></button>
+        <button class="year-tab" data-tab="y2">T-2년도<span class="weight-chip">×1</span></button>
       </div>
 
       <!-- T년도 -->
       <div class="year-panel active" id="panel-y0">
-        <div class="section-label">T년도 (가중치 3) — 세무조정 후 순손익</div>
-        <div class="input-grid">
+        <div class="input-grid four-col" style="margin-bottom:12px;">
           <div class="input-group">
-            <label class="input-label">
-              해당 사업연도
-              <button class="tooltip-btn" tabindex="-1">?
-                <span class="tooltip-popup">평가기준일 직전 가장 최근 사업연도를 입력합니다. 예: 2024</span>
-              </button>
-            </label>
-            <div class="input-wrap">
-              <input type="text" id="year0" placeholder="예: 2024" style="max-width:160px;">
-            </div>
-          </div>
-        </div>
-        <div class="input-grid" style="margin-top:16px;">
-          <div class="input-group">
-            <label class="input-label">
-              법인세 차감 전 순이익 <span class="required">*</span>
-              <button class="tooltip-btn" tabindex="-1">?
-                <span class="tooltip-popup">손익계산서상 법인세비용차감전순이익(EBT)입니다. 세무조정사항이 있는 경우 세무사 확인 필요.<br><span class="law-cite">법인세법 §14</span></span>
-              </button>
-            </label>
-            <div class="input-wrap">
-              <input type="text" id="ebt0" class="money has-suffix" placeholder="0">
-              <span class="money-unit">원</span>
-            </div>
-            <span class="error-msg" id="err-ebt0">값을 입력해주세요.</span>
+            <label class="input-label">사업연도</label>
+            <input type="text" id="year0" placeholder="예: 2024" style="max-width:140px;">
           </div>
           <div class="input-group">
-            <label class="input-label">
-              법인세 등 납부세액 <span class="required">*</span>
-              <button class="tooltip-btn" tabindex="-1">?
-                <span class="tooltip-popup">법인세 및 지방소득세(법인분) 실제 납부세액입니다. 미납·가산세는 제외합니다.<br><span class="law-cite">시행령 §56② 법인세 차감</span></span>
-              </button>
+            <label class="input-label">해당연도 발행주식수
+              <button class="tooltip-btn">?<span class="tooltip-popup">STEP 1과 다를 경우만 입력.</span></button>
             </label>
             <div class="input-wrap">
-              <input type="text" id="tax0" class="money has-suffix" placeholder="0">
-              <span class="money-unit">원</span>
-            </div>
-            <span class="error-msg" id="err-tax0">값을 입력해주세요.</span>
-          </div>
-          <div class="input-group">
-            <label class="input-label">
-              비경상적 손익 (가산/차감)
-              <button class="tooltip-btn" tabindex="-1">?
-                <span class="tooltip-popup">반복되지 않는 일시적 손익입니다. 예: 자산처분이익, 재해손실 등.<br>이익이면 (+), 손실이면 (-)로 입력합니다.<br><span class="law-cite">시행령 §56② 비경상적 손익 조정</span></span>
-              </button>
-            </label>
-            <div class="input-wrap">
-              <input type="text" id="nonrec0" class="money has-suffix" placeholder="0 (없으면 0)">
-              <span class="money-unit">원</span>
-            </div>
-            <span class="input-hint">비경상적 이익은 (+), 손실은 (-) 입력. 해당사항 없으면 0</span>
-          </div>
-          <div class="input-group">
-            <label class="input-label">
-              발행주식 총수 (해당연도)
-              <button class="tooltip-btn" tabindex="-1">?
-                <span class="tooltip-popup">해당 사업연도 말 기준 발행주식 총수입니다. STEP 1과 다를 경우에만 입력하세요.</span>
-              </button>
-            </label>
-            <div class="input-wrap">
-              <input type="text" id="shares0" class="money has-suffix" placeholder="STEP 1과 동일하면 공란">
+              <input type="text" id="shares0" class="money" placeholder="공란=STEP1과 동일">
               <span class="money-unit">주</span>
             </div>
           </div>
         </div>
-      </div>
+
+        <div class="section-label">기본 손익 (필수)</div>
+        <div class="input-grid">
+          <div class="input-group">
+            <label class="input-label">법인세 차감 전 순이익 (EBT) <span class="required">*</span>
+              <button class="tooltip-btn">?<span class="tooltip-popup">손익계산서상 법인세비용차감전순이익.<br><span class="law-cite">법인세법 §14</span></span></button>
+            </label>
+            <div class="input-wrap"><input type="text" id="ebt0" class="money" placeholder="0"><span class="money-unit">원</span></div>
+            <span class="error-msg" id="err-ebt0">필수 입력 항목입니다.</span>
+          </div>
+          <div class="input-group">
+            <label class="input-label">법인세 등 납부세액 <span class="required">*</span>
+              <button class="tooltip-btn">?<span class="tooltip-popup">법인세 + 지방소득세(법인분) 실납부액.<br><span class="law-cite">시행령 §56② 법인세 차감</span></span></button>
+            </label>
+            <div class="input-wrap"><input type="text" id="tax0" class="money" placeholder="0"><span class="money-unit">원</span></div>
+            <span class="error-msg" id="err-tax0">필수 입력 항목입니다.</span>
+          </div>
+          <div class="input-group">
+            <label class="input-label">비경상적 손익 (제거 대상)
+              <button class="tooltip-btn">?<span class="tooltip-popup">일시적 손익. 이익이면 (+), 손실이면 (-) 입력.<br>이익은 제거(차감), 손실은 가산 효과.<br><span class="law-cite">시행령 §56② 비경상손익 조정</span></span></button>
+            </label>
+            <div class="input-wrap"><input type="text" id="nonrec0" class="money" placeholder="0 (없으면 0)"><span class="money-unit">원</span></div>
+            <span class="input-hint">비경상이익 → (+), 비경상손실 → (-)</span>
+          </div>
+        </div>
+
+        <!-- 가산항목 -->
+        <div class="adj-header add">
+          <span class="adj-tag add">＋ 가산</span>
+          장부상 비용이지만 세법상 실질 수익력으로 환원되는 항목
+        </div>
+        <div class="input-grid">
+          <div class="input-group">
+            <label class="input-label">기부금 한도초과 이월손금산입액
+              <button class="tooltip-btn">?<span class="tooltip-popup">과거 한도초과 기부금을 당기에 손금(비용)으로 인정받아 소득이 줄어든 경우, 평가 시 가산.<br><span class="law-cite">시행령 §56② 가산항목</span></span></button>
+            </label>
+            <div class="input-wrap"><input type="text" id="donation0" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">법인세 환급금이자
+              <button class="tooltip-btn">?<span class="tooltip-popup">익금불산입된 법인세 환급금이자는 주식 평가 시 가산합니다.<br><span class="law-cite">시행령 §56② 가산항목</span></span></button>
+            </label>
+            <div class="input-wrap"><input type="text" id="refund0" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          </div>
+        </div>
+
+        <!-- 차감항목 -->
+        <div class="adj-header sub">
+          <span class="adj-tag sub">－ 차감</span>
+          손금불산입이지만 실제 현금유출이 있어 차감하는 항목
+        </div>
+        <div class="input-grid">
+          <div class="input-group">
+            <label class="input-label">벌금·과태료·가산세·체납처분비
+              <button class="tooltip-btn">?<span class="tooltip-popup">세법상 손금불산입이나 실제 현금 유출이 있으므로 순손익에서 차감.<br><span class="law-cite">시행령 §56② 차감항목</span></span></button>
+            </label>
+            <div class="input-wrap"><input type="text" id="penalty0" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">징수유예 공과금
+              <button class="tooltip-btn">?<span class="tooltip-popup">법령상 의무납부가 아니어서 손금불산입된 공과금도 차감.<br><span class="law-cite">시행령 §56② 차감항목</span></span></button>
+            </label>
+            <div class="input-wrap"><input type="text" id="taxDefer0" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          </div>
+        </div>
+      </div><!-- /panel-y0 -->
 
       <!-- T-1년도 -->
       <div class="year-panel" id="panel-y1">
-        <div class="section-label">T-1년도 (가중치 2)</div>
-        <div class="input-grid">
+        <div class="input-grid four-col" style="margin-bottom:12px;">
           <div class="input-group">
-            <label class="input-label">해당 사업연도</label>
-            <input type="text" id="year1" placeholder="예: 2023" style="max-width:160px;">
+            <label class="input-label">사업연도</label>
+            <input type="text" id="year1" placeholder="예: 2023" style="max-width:140px;">
+          </div>
+          <div class="input-group">
+            <label class="input-label">해당연도 발행주식수</label>
+            <div class="input-wrap"><input type="text" id="shares1" class="money" placeholder="공란=STEP1과 동일"><span class="money-unit">주</span></div>
           </div>
         </div>
-        <div class="input-grid" style="margin-top:16px;">
+        <div class="section-label">기본 손익 (필수)</div>
+        <div class="input-grid">
           <div class="input-group">
-            <label class="input-label">법인세 차감 전 순이익 <span class="required">*</span></label>
-            <div class="input-wrap">
-              <input type="text" id="ebt1" class="money has-suffix" placeholder="0">
-              <span class="money-unit">원</span>
-            </div>
-            <span class="error-msg" id="err-ebt1">값을 입력해주세요.</span>
+            <label class="input-label">법인세 차감 전 순이익 (EBT) <span class="required">*</span></label>
+            <div class="input-wrap"><input type="text" id="ebt1" class="money" placeholder="0"><span class="money-unit">원</span></div>
+            <span class="error-msg" id="err-ebt1">필수 입력 항목입니다.</span>
           </div>
           <div class="input-group">
             <label class="input-label">법인세 등 납부세액 <span class="required">*</span></label>
-            <div class="input-wrap">
-              <input type="text" id="tax1" class="money has-suffix" placeholder="0">
-              <span class="money-unit">원</span>
-            </div>
-            <span class="error-msg" id="err-tax1">값을 입력해주세요.</span>
+            <div class="input-wrap"><input type="text" id="tax1" class="money" placeholder="0"><span class="money-unit">원</span></div>
+            <span class="error-msg" id="err-tax1">필수 입력 항목입니다.</span>
           </div>
           <div class="input-group">
-            <label class="input-label">비경상적 손익 (가산/차감)</label>
-            <div class="input-wrap">
-              <input type="text" id="nonrec1" class="money has-suffix" placeholder="0">
-              <span class="money-unit">원</span>
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">발행주식 총수 (해당연도)</label>
-            <div class="input-wrap">
-              <input type="text" id="shares1" class="money has-suffix" placeholder="STEP 1과 동일하면 공란">
-              <span class="money-unit">주</span>
-            </div>
+            <label class="input-label">비경상적 손익 (제거 대상)</label>
+            <div class="input-wrap"><input type="text" id="nonrec1" class="money" placeholder="0"><span class="money-unit">원</span></div>
           </div>
         </div>
-      </div>
+        <div class="adj-header add"><span class="adj-tag add">＋ 가산</span>항목</div>
+        <div class="input-grid">
+          <div class="input-group">
+            <label class="input-label">기부금 한도초과 이월손금산입액</label>
+            <div class="input-wrap"><input type="text" id="donation1" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">법인세 환급금이자</label>
+            <div class="input-wrap"><input type="text" id="refund1" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          </div>
+        </div>
+        <div class="adj-header sub"><span class="adj-tag sub">－ 차감</span>항목</div>
+        <div class="input-grid">
+          <div class="input-group">
+            <label class="input-label">벌금·과태료·가산세·체납처분비</label>
+            <div class="input-wrap"><input type="text" id="penalty1" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">징수유예 공과금</label>
+            <div class="input-wrap"><input type="text" id="taxDefer1" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          </div>
+        </div>
+      </div><!-- /panel-y1 -->
 
       <!-- T-2년도 -->
       <div class="year-panel" id="panel-y2">
-        <div class="section-label">T-2년도 (가중치 1)</div>
-        <div class="input-grid">
+        <div class="input-grid four-col" style="margin-bottom:12px;">
           <div class="input-group">
-            <label class="input-label">해당 사업연도</label>
-            <input type="text" id="year2" placeholder="예: 2022" style="max-width:160px;">
+            <label class="input-label">사업연도</label>
+            <input type="text" id="year2" placeholder="예: 2022" style="max-width:140px;">
+          </div>
+          <div class="input-group">
+            <label class="input-label">해당연도 발행주식수</label>
+            <div class="input-wrap"><input type="text" id="shares2" class="money" placeholder="공란=STEP1과 동일"><span class="money-unit">주</span></div>
           </div>
         </div>
-        <div class="input-grid" style="margin-top:16px;">
+        <div class="section-label">기본 손익 (필수)</div>
+        <div class="input-grid">
           <div class="input-group">
-            <label class="input-label">법인세 차감 전 순이익 <span class="required">*</span></label>
-            <div class="input-wrap">
-              <input type="text" id="ebt2" class="money has-suffix" placeholder="0">
-              <span class="money-unit">원</span>
-            </div>
-            <span class="error-msg" id="err-ebt2">값을 입력해주세요.</span>
+            <label class="input-label">법인세 차감 전 순이익 (EBT) <span class="required">*</span></label>
+            <div class="input-wrap"><input type="text" id="ebt2" class="money" placeholder="0"><span class="money-unit">원</span></div>
+            <span class="error-msg" id="err-ebt2">필수 입력 항목입니다.</span>
           </div>
           <div class="input-group">
             <label class="input-label">법인세 등 납부세액 <span class="required">*</span></label>
-            <div class="input-wrap">
-              <input type="text" id="tax2" class="money has-suffix" placeholder="0">
-              <span class="money-unit">원</span>
-            </div>
-            <span class="error-msg" id="err-tax2">값을 입력해주세요.</span>
+            <div class="input-wrap"><input type="text" id="tax2" class="money" placeholder="0"><span class="money-unit">원</span></div>
+            <span class="error-msg" id="err-tax2">필수 입력 항목입니다.</span>
           </div>
           <div class="input-group">
-            <label class="input-label">비경상적 손익 (가산/차감)</label>
-            <div class="input-wrap">
-              <input type="text" id="nonrec2" class="money has-suffix" placeholder="0">
-              <span class="money-unit">원</span>
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">발행주식 총수 (해당연도)</label>
-            <div class="input-wrap">
-              <input type="text" id="shares2" class="money has-suffix" placeholder="STEP 1과 동일하면 공란">
-              <span class="money-unit">주</span>
-            </div>
+            <label class="input-label">비경상적 손익 (제거 대상)</label>
+            <div class="input-wrap"><input type="text" id="nonrec2" class="money" placeholder="0"><span class="money-unit">원</span></div>
           </div>
         </div>
-      </div>
+        <div class="adj-header add"><span class="adj-tag add">＋ 가산</span>항목</div>
+        <div class="input-grid">
+          <div class="input-group">
+            <label class="input-label">기부금 한도초과 이월손금산입액</label>
+            <div class="input-wrap"><input type="text" id="donation2" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">법인세 환급금이자</label>
+            <div class="input-wrap"><input type="text" id="refund2" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          </div>
+        </div>
+        <div class="adj-header sub"><span class="adj-tag sub">－ 차감</span>항목</div>
+        <div class="input-grid">
+          <div class="input-group">
+            <label class="input-label">벌금·과태료·가산세·체납처분비</label>
+            <div class="input-wrap"><input type="text" id="penalty2" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">징수유예 공과금</label>
+            <div class="input-wrap"><input type="text" id="taxDefer2" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          </div>
+        </div>
+      </div><!-- /panel-y2 -->
 
-      <div class="notice-box" style="margin-top:20px;">
-        <h4>⚠ 순손익 입력 시 주의사항</h4>
+      <div class="notice-box">
+        <h4>⚠ 순손익 조정항목 주의사항</h4>
         <ul>
-          <li>결손(적자)인 경우 음수(-)로 입력하십시오.</li>
-          <li>세무조정(익금산입·손금산입 등)이 있는 경우, 세무신고서상 수치와 재무제표 수치가 다를 수 있습니다. 법인세 신고서 기준을 우선합니다.</li>
-          <li>비경상적 손익(자산처분손익, 재해손실 등)은 반드시 전문가와 해당 항목의 제거 여부를 확인하십시오.</li>
+          <li>결손(적자)인 경우 EBT를 음수(-)로 입력하십시오.</li>
+          <li>비경상적 손익: 이익(+) 입력 시 순손익에서 제거(차감)되고, 손실(-) 입력 시 순손익에 가산됩니다.</li>
+          <li>기부금 이월손금산입·환급금이자는 전문가가 세무신고서에서 직접 확인한 금액만 입력하십시오.</li>
+          <li>벌금·가산세는 법인세 신고서 상 손금불산입 내역을 근거로 입력하십시오.</li>
         </ul>
       </div>
+
     </div>
   </div>
 
-  <!-- ════════════════════════════════════
-       SECTION 3 : 순자산가치
+  <!-- ══════════════════════════════════
+       STEP 3 : 순자산가치
   ════════════════════════════════════ -->
   <div class="card">
     <div class="card-header">
       <div class="card-header-left">
         <span class="step-badge">STEP 3</span>
-        <span class="card-title">순자산가치 산정 — 평가기준일 현재 재무상태표</span>
+        <span class="card-title">순자산가치 산정 — 평가기준일 재무상태표 + 세법 조정항목</span>
       </div>
       <span class="card-subtitle">시행령 §55</span>
     </div>
     <div class="card-body">
-      <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:20px; line-height:1.8;">
-        「상속세 및 증여세법 시행령」 §55①: <strong>1주당 순자산가치 = (자산총액 − 부채총액) ÷ 발행주식 총수</strong><br>
-        ※ 자산·부채는 평가기준일 현재 시가에 따라 평가하는 것이 원칙입니다(시행령 §55②). 시가 확인이 어려운 경우 장부가액을 입력하되 전문가 검토가 필요합니다.
+
+      <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:18px;line-height:1.85;">
+        <strong>1주당 순자산가치</strong> = 조정 순자산 ÷ 발행주식 총수<br>
+        조정 순자산 = (장부 자산 <span style="color:var(--add-color)">± 투자주식 재평가 + 영업권 세법평가액</span> <span style="color:var(--sub-color)">− 개발비 제외 − 대손 추가 − 자기주식</span>)
+        − (장부 부채 <span style="color:var(--sub-color)">+ 퇴직급여추계액 추가 + 우발부채</span>)
       </p>
 
-      <div class="section-label">자산 항목</div>
+      <!-- 장부 기초 자산·부채 -->
+      <div class="section-label">① 장부 기초 자산·부채 (필수)</div>
       <div class="input-grid">
         <div class="input-group">
-          <label class="input-label">
-            자산총액 <span class="required">*</span>
-            <button class="tooltip-btn" tabindex="-1">?
-              <span class="tooltip-popup">평가기준일 현재 재무상태표상 자산 합계액입니다. 시가 평가가 원칙이나, 시가 불명확 시 장부가액을 사용합니다.<br><span class="law-cite">시행령 §55①</span></span>
-            </button>
+          <label class="input-label">자산총액 (장부) <span class="required">*</span>
+            <button class="tooltip-btn">?<span class="tooltip-popup">평가기준일 현재 재무상태표 자산 합계.<br><span class="law-cite">시행령 §55①</span></span></button>
           </label>
-          <div class="input-wrap">
-            <input type="text" id="totalAssets" class="money has-suffix" placeholder="0">
-            <span class="money-unit">원</span>
-          </div>
+          <div class="input-wrap"><input type="text" id="totalAssets" class="money" placeholder="0"><span class="money-unit">원</span></div>
           <span class="error-msg" id="err-totalAssets">자산총액을 입력해주세요.</span>
         </div>
         <div class="input-group">
-          <label class="input-label">
-            영업권 장부금액
-            <button class="tooltip-btn" tabindex="-1">?
-              <span class="tooltip-popup">자산총액에 포함된 영업권 장부금액입니다. 보충적 평가 시 별도로 평가될 수 있으므로 분리 기재합니다.<br><span class="law-cite">시행령 §59 영업권 평가</span></span>
-            </button>
+          <label class="input-label">부채총액 (장부) <span class="required">*</span>
+            <button class="tooltip-btn">?<span class="tooltip-popup">평가기준일 현재 재무상태표 부채 합계.<br><span class="law-cite">시행령 §55①</span></span></button>
           </label>
-          <div class="input-wrap">
-            <input type="text" id="goodwill" class="money has-suffix" placeholder="0 (없으면 0)">
-            <span class="money-unit">원</span>
-          </div>
-        </div>
-        <div class="input-group">
-          <label class="input-label">
-            부동산 평가액
-            <button class="tooltip-btn" tabindex="-1">?
-              <span class="tooltip-popup">자산총액에 포함된 부동산(토지·건물) 금액입니다. 부동산 과다법인 판정 및 시가 평가 시 활용됩니다.<br><span class="law-cite">시행령 §54③</span></span>
-            </button>
-          </label>
-          <div class="input-wrap">
-            <input type="text" id="realEstate" class="money has-suffix" placeholder="0">
-            <span class="money-unit">원</span>
-          </div>
-        </div>
-        <div class="input-group">
-          <label class="input-label">
-            자기주식 장부금액
-            <button class="tooltip-btn" tabindex="-1">?
-              <span class="tooltip-popup">자기주식은 순자산 계산 시 자산에서 제외합니다.<br><span class="law-cite">시행령 §55① 단서</span></span>
-            </button>
-          </label>
-          <div class="input-wrap">
-            <input type="text" id="treasuryStock" class="money has-suffix" placeholder="0 (없으면 0)">
-            <span class="money-unit">원</span>
-          </div>
-        </div>
-      </div>
-
-      <hr class="section-divider">
-      <div class="section-label">부채 항목</div>
-      <div class="input-grid">
-        <div class="input-group">
-          <label class="input-label">
-            부채총액 <span class="required">*</span>
-            <button class="tooltip-btn" tabindex="-1">?
-              <span class="tooltip-popup">평가기준일 현재 재무상태표상 부채 합계액입니다.<br><span class="law-cite">시행령 §55①</span></span>
-            </button>
-          </label>
-          <div class="input-wrap">
-            <input type="text" id="totalLiabilities" class="money has-suffix" placeholder="0">
-            <span class="money-unit">원</span>
-          </div>
+          <div class="input-wrap"><input type="text" id="totalLiabilities" class="money" placeholder="0"><span class="money-unit">원</span></div>
           <span class="error-msg" id="err-totalLiabilities">부채총액을 입력해주세요.</span>
         </div>
         <div class="input-group">
-          <label class="input-label">
-            충당부채 (퇴직급여 등)
-            <button class="tooltip-btn" tabindex="-1">?
-              <span class="tooltip-popup">퇴직급여충당부채 등 추정부채 금액입니다. 부채총액에 이미 포함된 경우 별도 입력 불필요합니다.</span>
-            </button>
+          <label class="input-label">자기주식 장부금액
+            <button class="tooltip-btn">?<span class="tooltip-popup">순자산 계산 시 자산에서 제외합니다.<br><span class="law-cite">시행령 §55① 단서</span></span></button>
           </label>
-          <div class="input-wrap">
-            <input type="text" id="provision" class="money has-suffix" placeholder="0 (부채총액 포함 시 0)">
-            <span class="money-unit">원</span>
-          </div>
+          <div class="input-wrap"><input type="text" id="treasuryStock" class="money" placeholder="0"><span class="money-unit">원</span></div>
         </div>
+      </div>
+
+      <!-- 자산 조정항목 -->
+      <div class="adj-header add" style="margin-top:24px;">
+        <span class="adj-tag add">자산 조정</span>
+        투자주식 재평가 / 영업권 가산 / 무형자산 제외 / 대손 추가
+      </div>
+
+      <div class="input-grid">
+        <div class="input-group">
+          <label class="input-label">투자주식 재평가 차액 (세법가 − 장부가)
+            <button class="tooltip-btn">?<span class="tooltip-popup">보유 자회사 주식을 상증세법 보충적 평가방법으로 재평가한 가액과 장부가액의 차이입니다.<br>세법평가 > 장부가 → 양수(+), 세법평가 < 장부가 → 음수(-)<br><span class="law-cite">시행령 §55② 투자주식 재평가</span></span></button>
+          </label>
+          <div class="input-wrap"><input type="text" id="investAdj" class="money" placeholder="0 (상승이면 +, 하락이면 -)"><span class="money-unit">원</span></div>
+          <span class="input-hint">지분법손실 반영 시 음수(-) 입력</span>
+        </div>
+        <div class="input-group">
+          <label class="input-label">영업권 세법평가액 (강제 가산)
+            <button class="tooltip-btn">?<span class="tooltip-popup">장부에 없더라도 최근 3년 영업이익이 높은 경우 세법상 영업권이 계산되어 자산에 가산됩니다. (주가 상승 요인)<br><span class="law-cite">시행령 §59 영업권 평가</span></span></button>
+          </label>
+          <div class="input-wrap"><input type="text" id="goodwillTax" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          <span class="input-hint">세무사 계산 금액 입력 (해당 없으면 0)</span>
+        </div>
+        <div class="input-group">
+          <label class="input-label">개발비·무형자산 세법 제외액
+            <button class="tooltip-btn">?<span class="tooltip-popup">장부상 개발비(무형자산)라도 세법상 실질 재산적 가치가 없다고 판단되면 0원으로 처리하여 자산에서 차감합니다. (주가 하락 요인)<br><span class="law-cite">시행령 §55② 무형자산 조정</span></span></button>
+          </label>
+          <div class="input-wrap"><input type="text" id="intangibleEx" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          <span class="input-hint">자산에서 차감할 금액 (양수 입력)</span>
+        </div>
+        <div class="input-group">
+          <label class="input-label">대손충당금 추가 차감액
+            <button class="tooltip-btn">?<span class="tooltip-popup">장부상 대손충당금 초과, 실제 회수불능(파산 등) 채권을 추가로 자산에서 차감합니다.<br><span class="law-cite">시행령 §55② 대손 조정</span></span></button>
+          </label>
+          <div class="input-wrap"><input type="text" id="badDebtAdj" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          <span class="input-hint">자산에서 차감할 금액 (양수 입력)</span>
+        </div>
+      </div>
+
+      <!-- 부채 조정항목 -->
+      <div class="adj-header sub" style="margin-top:24px;">
+        <span class="adj-tag sub">부채 조정</span>
+        퇴직급여추계액 추가 / 우발부채·소송충당
+      </div>
+
+      <div class="input-grid">
+        <div class="input-group">
+          <label class="input-label">퇴직급여추계액 추가 계상액
+            <button class="tooltip-btn">?<span class="tooltip-popup">평가기준일 현재 전 임직원 퇴직 시 지급할 퇴직급여추계액 전액을 부채로 계상해야 합니다. 장부 충당부채가 부족한 경우 그 차액을 입력합니다. (주가 하락 요인)<br><span class="law-cite">시행령 §55② 퇴직급여추계액</span></span></button>
+          </label>
+          <div class="input-wrap"><input type="text" id="retireAdj" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          <span class="input-hint">장부 충당부채 초과분만 입력 (양수)</span>
+        </div>
+        <div class="input-group">
+          <label class="input-label">우발부채·소송충당액
+            <button class="tooltip-btn">?<span class="tooltip-popup">현재 진행 중인 소송·보증채무 중 비용 유출이 확실시되는 금액을 부채로 감안합니다. (주가 하락 요인)<br><span class="law-cite">시행령 §55② 우발부채</span></span></button>
+          </label>
+          <div class="input-wrap"><input type="text" id="contingent" class="money" placeholder="0"><span class="money-unit">원</span></div>
+          <span class="input-hint">확실성 높은 우발부채만 계상 (양수)</span>
+        </div>
+      </div>
+
+      <div class="notice-box">
+        <h4>⚠ 순자산 조정항목 주의사항</h4>
+        <ul>
+          <li>투자주식 재평가 차액: 자회사 주식이 있다면 반드시 별도 보충적 평가방법으로 계산한 후 차이를 반영하십시오.</li>
+          <li>영업권 세법평가액: 직전 3년 가중평균 순손익액이 자산가액×기준수익률을 초과하는 경우 계산됩니다. 세무사 계산이 필요합니다.</li>
+          <li>퇴직급여추계액: 실제 지급예상액과 장부 계상액의 차이를 입력하십시오. 과소계상 시 주가가 과대평가됩니다.</li>
+          <li>우발부채는 확실성이 충분히 높을 때만 계상하십시오. 단순 가능성 단계의 소송은 제외합니다.</li>
+        </ul>
       </div>
     </div>
   </div>
 
-  <!-- ════════════════════════════════════
-       SECTION 4 : 최대주주 할증
+  <!-- ══════════════════════════════════
+       STEP 4 : 최대주주 할증
   ════════════════════════════════════ -->
   <div class="card">
     <div class="card-header">
@@ -1179,49 +506,43 @@
       <span class="card-subtitle">상증세법 §63③ · 시행령 §53</span>
     </div>
     <div class="card-body">
-      <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:20px; line-height:1.8;">
-        「상속세 및 증여세법」 §63③: 최대주주 등이 보유하는 주식은 보충적 평가액의 <strong>20%를 할증</strong>합니다.<br>
-        다만, 최대주주 등이 보유한 주식이 발행주식 총수의 <strong>50%를 초과</strong>하는 경우에는 <strong>30% 할증</strong>됩니다.
+      <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:18px;line-height:1.85;">
+        최대주주 등이 보유하는 주식: 보충적 평가액의 <strong>20% 할증</strong><br>
+        최대주주 등의 지분 합계가 발행주식의 <strong>50% 초과</strong> 시: <strong>30% 할증</strong>
       </p>
       <div class="input-grid">
         <div class="input-group">
-          <label class="checkbox-group" style="cursor:pointer;">
+          <label class="checkbox-group">
             <input type="checkbox" id="isMajorHolder">
             <div class="checkbox-text">
               <h4>최대주주 등 해당 여부</h4>
-              <p>C가 최대주주 또는 최대주주와 특수관계에 있는 자에 해당하는 경우 체크</p>
+              <p>C가 최대주주이거나 최대주주와 특수관계에 있는 경우 체크 (상증세법 §63③)</p>
             </div>
           </label>
         </div>
         <div class="input-group" id="majorRateGroup" style="display:none;">
-          <label class="input-label">
-            최대주주 등의 지분율 합계 <span class="required">*</span>
-            <button class="tooltip-btn" tabindex="-1">?
-              <span class="tooltip-popup">최대주주 및 그 특수관계인의 지분율 합계입니다. 50% 초과 시 할증률 30% 적용.<br><span class="law-cite">상증세법 §63③</span></span>
-            </button>
+          <label class="input-label">최대주주 등 지분율 합계 <span class="required">*</span>
+            <button class="tooltip-btn">?<span class="tooltip-popup">최대주주 및 특수관계인 지분율 합계. 50% 초과 시 30% 할증 적용.<br><span class="law-cite">상증세법 §63③</span></span></button>
           </label>
-          <div class="input-wrap">
-            <input type="text" id="majorRate" class="money has-suffix" placeholder="예: 45.5">
-            <span class="money-unit">%</span>
-          </div>
+          <div class="input-wrap"><input type="text" id="majorRate" class="money" placeholder="예: 45.5"><span class="money-unit">%</span></div>
         </div>
       </div>
-
-      <div class="notice-box" style="margin-top:20px;">
-        <h4>⚠ 할증 적용 예외 (상증세법 §63③ 단서)</h4>
+      <div class="notice-box">
+        <h4>⚠ 할증 예외 주의사항 (상증세법 §63③ 단서)</h4>
         <ul>
-          <li>중소기업 주식: 일부 경우 할증 제외 가능 (조특법 관련 규정 별도 확인 요망)</li>
-          <li>상장을 위해 모집한 주식: 해당 없음</li>
+          <li>중소기업 해당 여부에 따라 할증이 제외될 수 있습니다 (조특법 등 별도 확인 필요).</li>
           <li>할증 예외 여부는 반드시 세무사와 사전 확인이 필요합니다.</li>
         </ul>
       </div>
     </div>
   </div>
 
-  <!-- ── 버튼 영역 ── -->
+  <!-- ══════════════════════════════════
+       액션 버튼
+  ════════════════════════════════════ -->
   <div class="action-bar">
     <button class="btn btn-secondary" onclick="resetAll()">↺ 초기화</button>
-    <button class="btn btn-secondary" onclick="fillSample()" style="border-color:var(--gold);color:var(--warning);">📋 샘플 데이터 입력</button>
+    <button class="btn btn-secondary btn-sample" onclick="fillSample()">📋 샘플 데이터</button>
     <button class="btn btn-primary" id="calcBtn" onclick="calculate()">
       <span class="btn-icon">🔢</span>
       <span class="loading-spinner"></span>
@@ -1229,8 +550,8 @@
     </button>
   </div>
 
-  <!-- ════════════════════════════════════
-       RESULT SECTION
+  <!-- ══════════════════════════════════
+       결과 섹션
   ════════════════════════════════════ -->
   <div id="result-section">
 
@@ -1238,11 +559,9 @@
       <div class="result-header">
         <span style="font-size:22px;">📊</span>
         <h3 id="result-title">비상장주식 가치평가 결과</h3>
-        <span id="result-company" style="font-size:12px; color:rgba(255,255,255,0.45); margin-left:auto; font-family:'IBM Plex Mono',monospace;"></span>
+        <span id="result-company" style="font-size:11.5px;color:rgba(255,255,255,0.4);margin-left:auto;font-family:'IBM Plex Mono',monospace;"></span>
       </div>
       <div class="result-body">
-
-        <!-- 최종 결과 박스 -->
         <div class="final-result-box">
           <div class="final-result-label">
             1주당 최종 평가액
@@ -1253,14 +572,12 @@
             <div class="total-val" id="res-totalVal">보유주식 평가액: —</div>
           </div>
         </div>
-
-        <!-- 결과 요약표 -->
-        <table class="result-table" style="margin-top:24px;">
+        <table class="result-table" style="margin-top:22px;">
           <thead>
             <tr>
               <th>구분</th>
               <th>내용</th>
-              <th style="text-align:right;">금액 (원)</th>
+              <th style="text-align:right;">금액</th>
             </tr>
           </thead>
           <tbody id="result-table-body"></tbody>
@@ -1269,43 +586,39 @@
     </div>
 
     <!-- 계산 과정 상세 -->
-    <h3 style="font-family:'Noto Serif KR',serif; font-size:16px; font-weight:700; color:var(--navy); margin-bottom:16px;">계산 과정 상세</h3>
+    <h3 style="font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:14px;">계산 과정 상세</h3>
 
-    <!-- 순손익가치 계산 과정 -->
     <div class="process-card">
       <div class="process-toggle" onclick="toggleProcess(this)">
-        <h4>📈 순손익가치 계산 과정 <span style="font-family:'IBM Plex Mono'; font-size:11px; color:var(--text-light); font-weight:400;">(시행령 §56)</span></h4>
+        <h4>📈 순손익가치 계산 과정 <span style="font-family:'IBM Plex Mono';font-size:10.5px;color:var(--text-light);font-weight:400;">(시행령 §56 · 조정항목 포함)</span></h4>
         <span class="arrow">▼</span>
       </div>
       <div class="process-content" id="process-profit"></div>
     </div>
 
-    <!-- 순자산가치 계산 과정 -->
     <div class="process-card">
       <div class="process-toggle" onclick="toggleProcess(this)">
-        <h4>🏦 순자산가치 계산 과정 <span style="font-family:'IBM Plex Mono'; font-size:11px; color:var(--text-light); font-weight:400;">(시행령 §55)</span></h4>
+        <h4>🏦 순자산가치 계산 과정 <span style="font-family:'IBM Plex Mono';font-size:10.5px;color:var(--text-light);font-weight:400;">(시행령 §55 · 조정항목 포함)</span></h4>
         <span class="arrow">▼</span>
       </div>
       <div class="process-content" id="process-asset"></div>
     </div>
 
-    <!-- 최종 합산 과정 -->
     <div class="process-card">
       <div class="process-toggle" onclick="toggleProcess(this)">
-        <h4>⚖️ 최종 가중평균 및 할증 계산 <span style="font-family:'IBM Plex Mono'; font-size:11px; color:var(--text-light); font-weight:400;">(시행령 §54 · 상증세법 §63③)</span></h4>
+        <h4>⚖️ 최종 가중평균 및 할증 계산 <span style="font-family:'IBM Plex Mono';font-size:10.5px;color:var(--text-light);font-weight:400;">(시행령 §54 · 상증세법 §63③)</span></h4>
         <span class="arrow">▼</span>
       </div>
       <div class="process-content" id="process-final"></div>
     </div>
 
-    <!-- 주의사항 -->
     <div class="notice-box">
       <h4>📋 평가결과 활용 주의사항</h4>
       <ul>
-        <li>본 계산 결과는 보충적 평가방법에 따른 <strong>참고용 수치</strong>이며, 실제 신고·납부에 사용하기 전 반드시 세무사 또는 공인회계사의 검토를 받으십시오.</li>
-        <li>자산의 시가 평가, 영업권 별도 평가, 비경상적 손익 조정 등 전문적 판단이 필요한 사항이 있을 수 있습니다.</li>
+        <li>본 계산 결과는 보충적 평가방법에 따른 <strong>참고용 수치</strong>이며, 실제 신고·납부 전 반드시 세무사 또는 공인회계사의 검토를 받으십시오.</li>
+        <li>영업권 세법평가, 투자주식 재평가, 퇴직급여추계액 산정 등은 추가적인 전문가 판단이 필요합니다.</li>
         <li>세법 개정(매년 시행령 변경 포함)에 따라 계산 방식이 달라질 수 있습니다.</li>
-        <li>부동산 과다법인 해당 여부, 최대주주 할증 예외 여부 등은 사실관계를 확인하여 적용하십시오.</li>
+        <li>부동산 과다법인 해당 여부, 최대주주 할증 예외 여부는 사실관계를 확인하여 적용하십시오.</li>
       </ul>
     </div>
 
@@ -1315,7 +628,7 @@
       계산 결과에 대한 법적 책임은 사용자에게 있으며, 실제 신고·납부 시 전문가 확인이 필수입니다.
     </div>
 
-    <div class="action-bar" style="margin-top:24px;">
+    <div class="action-bar" style="margin-top:20px;">
       <button class="btn btn-print" onclick="window.print()">🖨 결과 인쇄</button>
       <button class="btn btn-secondary" onclick="resetAll()">↺ 처음부터 다시</button>
     </div>
@@ -1324,419 +637,6 @@
 
 </div><!-- /main-wrap -->
 
-<script>
-// ─────────────────────────────────────────────
-// 유틸리티
-// ─────────────────────────────────────────────
-function fmt(n) {
-  if (n === null || n === undefined || isNaN(n)) return '—';
-  return Math.round(n).toLocaleString('ko-KR');
-}
-function fmtW(n) {
-  if (n === null || isNaN(n)) return '—';
-  return Math.round(n).toLocaleString('ko-KR') + ' 원';
-}
-function parseNum(id) {
-  const v = document.getElementById(id).value.replace(/,/g, '').trim();
-  if (v === '' || v === '-') return null;
-  const n = parseFloat(v);
-  return isNaN(n) ? null : n;
-}
-function parseNumDefault0(id) {
-  const n = parseNum(id);
-  return n === null ? 0 : n;
-}
-
-// 숫자 입력 시 콤마 자동
-document.querySelectorAll('input.money').forEach(inp => {
-  inp.addEventListener('input', function () {
-    const raw = this.value.replace(/[^0-9\-\.]/g, '');
-    const parts = raw.split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    this.value = raw.includes('.') ? parts.join('.') : parts[0];
-  });
-});
-
-// ─────────────────────────────────────────────
-// 탭
-// ─────────────────────────────────────────────
-document.querySelectorAll('.year-tab').forEach(tab => {
-  tab.addEventListener('click', function () {
-    document.querySelectorAll('.year-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.year-panel').forEach(p => p.classList.remove('active'));
-    this.classList.add('active');
-    document.getElementById('panel-' + this.dataset.tab).classList.add('active');
-  });
-});
-
-// ─────────────────────────────────────────────
-// 최대주주 체크박스
-// ─────────────────────────────────────────────
-document.getElementById('isMajorHolder').addEventListener('change', function () {
-  document.getElementById('majorRateGroup').style.display = this.checked ? 'block' : 'none';
-});
-
-// ─────────────────────────────────────────────
-// 계산 과정 토글
-// ─────────────────────────────────────────────
-function toggleProcess(el) {
-  el.classList.toggle('open');
-  el.nextElementSibling.classList.toggle('open');
-}
-
-// ─────────────────────────────────────────────
-// 유효성 검사
-// ─────────────────────────────────────────────
-function validate() {
-  let ok = true;
-  const missing = [];
-  const required = [
-    ['companyName', '법인명'],
-    ['baseDate',    '평가기준일'],
-    ['totalShares', '발행주식 총수'],
-    ['ownedShares', '보유 주식 수'],
-    ['ebt0',  'T년도 법인세 차감 전 순이익'],
-    ['tax0',  'T년도 법인세 납부세액'],
-    ['ebt1',  'T-1년도 법인세 차감 전 순이익'],
-    ['tax1',  'T-1년도 법인세 납부세액'],
-    ['ebt2',  'T-2년도 법인세 차감 전 순이익'],
-    ['tax2',  'T-2년도 법인세 납부세액'],
-    ['totalAssets',      '자산총액'],
-    ['totalLiabilities', '부채총액'],
-  ];
-  required.forEach(([id, label]) => {
-    const el = document.getElementById(id);
-    const errEl = document.getElementById('err-' + id);
-    // 콤마 제거 후 완전히 빈 문자열일 때만 미입력으로 판단. "0"은 유효한 입력값.
-    const stripped = el.value.replace(/,/g, '').trim();
-    const isEmpty = stripped === '';
-    if (isEmpty) {
-      el.classList.add('error');
-      if (errEl) errEl.classList.add('show');
-      missing.push(label);
-      ok = false;
-    } else {
-      el.classList.remove('error');
-      if (errEl) errEl.classList.remove('show');
-    }
-  });
-  if (!ok) {
-    alert('다음 필수 항목을 입력해주세요:\n\n• ' + missing.join('\n• '));
-  }
-  return ok;
-}
-
-// ─────────────────────────────────────────────
-// 메인 계산
-// ─────────────────────────────────────────────
-function calculate() {
-  if (!validate()) {
-    return;
-  }
-
-  const btn = document.getElementById('calcBtn');
-  btn.classList.add('calculating');
-  btn.disabled = true;
-
-  try {
-    doCalc();
-    const rs = document.getElementById('result-section');
-    rs.style.display = 'block';
-    setTimeout(() => rs.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
-  } catch(e) {
-    alert('계산 중 오류가 발생했습니다: ' + e.message);
-    console.error(e);
-  } finally {
-    btn.classList.remove('calculating');
-    btn.disabled = false;
-  }
-}
-
-function doCalc() {
-  // ── 기본 정보
-  const companyName   = document.getElementById('companyName').value;
-  const baseDate      = document.getElementById('baseDate').value;
-  const totalSharesBase = parseNum('totalShares') || 0;
-  const ownedShares   = parseNum('ownedShares') || 0;
-  const bizType       = document.getElementById('bizType').value; // general | property
-
-  // ── 3개년 순손익 계산
-  const years = [0, 1, 2];
-  const weights = [3, 2, 1];
-  const profitData = years.map(i => {
-    const ebt      = parseNumDefault0('ebt' + i);
-    const tax      = parseNumDefault0('tax' + i);
-    const nonrec   = parseNumDefault0('nonrec' + i);
-    const sharesRaw = parseNum('shares' + i);
-    const shares   = sharesRaw !== null ? sharesRaw : totalSharesBase;
-    // 순손익액 = (법인세차감전순이익 - 법인세등) - 비경상적손익
-    const netIncome = (ebt - tax) - nonrec;
-    // 1주당 순손익
-    const perShare  = shares > 0 ? netIncome / shares : 0;
-    return { ebt, tax, nonrec, netIncome, shares, perShare };
-  });
-
-  // 가중 평균 1주당 순손익
-  // = (T×3 + T-1×2 + T-2×1) / 6
-  const weightedPerShare = (
-    profitData[0].perShare * 3 +
-    profitData[1].perShare * 2 +
-    profitData[2].perShare * 1
-  ) / 6;
-
-  // 1주당 순손익가치 = 가중평균 1주당 순손익 / 환원율(10%)
-  const RETURN_RATE = 0.10; // 10%
-  const perShareProfitValue = weightedPerShare / RETURN_RATE;
-
-  // ── 순자산가치
-  const totalAssets      = parseNumDefault0('totalAssets');
-  const totalLiabilities = parseNumDefault0('totalLiabilities');
-  const treasuryStock    = parseNumDefault0('treasuryStock');
-  // 순자산 = 자산총액 - 자기주식 - 부채총액
-  const netAssets = totalAssets - treasuryStock - totalLiabilities;
-  const perShareAssetValue = totalSharesBase > 0 ? netAssets / totalSharesBase : 0;
-
-  // ── 가중 합산 (시행령 §54)
-  // 일반법인: 순손익 60% + 순자산 40%
-  // 부동산 과다법인: 순손익 40% + 순자산 60%
-  let wProfit, wAsset;
-  if (bizType === 'property') {
-    wProfit = 0.4; wAsset = 0.6;
-  } else {
-    wProfit = 0.6; wAsset = 0.4;
-  }
-
-  // 하한: 순자산가치의 80% 미만이면 80% 적용 (시행령 §54②)
-  const blendedRaw = perShareProfitValue * wProfit + perShareAssetValue * wAsset;
-  const floorValue = perShareAssetValue * 0.80;
-  let perShareBase = blendedRaw;
-  let floorApplied = false;
-  if (blendedRaw < floorValue) {
-    perShareBase = floorValue;
-    floorApplied = true;
-  }
-
-  // ── 최대주주 할증
-  const isMajor = document.getElementById('isMajorHolder').checked;
-  let surchargeRate = 0;
-  if (isMajor) {
-    const majorRate = parseNum('majorRate');
-    if (majorRate !== null && majorRate > 50) {
-      surchargeRate = 0.30;
-    } else {
-      surchargeRate = 0.20;
-    }
-  }
-  const perShareFinal = perShareBase * (1 + surchargeRate);
-  const totalValue = perShareFinal * ownedShares;
-
-  // ─────────────────────────────────────
-  // 결과 UI 업데이트
-  // ─────────────────────────────────────
-  document.getElementById('result-title').textContent = `비상장주식 가치평가 결과 — ${companyName}`;
-  document.getElementById('result-company').textContent = baseDate ? `평가기준일: ${baseDate}` : '';
-  document.getElementById('result-basedate-label').textContent = `평가기준일: ${baseDate || '—'}`;
-  document.getElementById('res-perShare').textContent = fmtW(perShareFinal);
-  document.getElementById('res-totalVal').textContent = `보유주식(${fmt(ownedShares)}주) 평가액: ${fmtW(totalValue)}`;
-
-  // 요약표
-  const tbody = document.getElementById('result-table-body');
-  tbody.innerHTML = '';
-  const rows = [
-    ['—', '순손익가치', '1주당 순손익가치', fmt(perShareProfitValue) + ' 원', false],
-    ['—', '', `가중평균 1주당 순손익(${fmtW(weightedPerShare)}) ÷ 환원율(10%)`, '', true],
-    ['—', '순자산가치', '1주당 순자산가치', fmt(perShareAssetValue) + ' 원', false],
-    ['—', '', `순자산(${fmtW(netAssets)}) ÷ 발행주식(${fmt(totalSharesBase)}주)`, '', true],
-    ['—', '가중평균 주식가치', bizType === 'property'
-      ? `순손익 40% + 순자산 60%` : `순손익 60% + 순자산 40%`,
-      fmt(blendedRaw) + ' 원', false],
-  ];
-  if (floorApplied) {
-    rows.push(['—', '⚠ 하한 적용', '순자산가치 80% 하한 적용 (시행령 §54②)', fmt(floorValue) + ' 원', false]);
-  }
-  if (isMajor) {
-    rows.push(['—', `최대주주 할증 (+${Math.round(surchargeRate * 100)}%)`, `상증세법 §63③ 적용`, fmt(perShareBase * surchargeRate) + ' 원', false]);
-  }
-
-  rows.forEach(([, label, desc, val, isSub]) => {
-    const tr = document.createElement('tr');
-    if (isSub) {
-      tr.className = 'sub-row';
-      tr.innerHTML = `<td></td><td class="formula-cell">${desc}</td><td></td>`;
-    } else {
-      tr.innerHTML = `<td><strong>${label}</strong></td><td>${desc}</td><td class="num">${val}</td>`;
-    }
-    tbody.appendChild(tr);
-  });
-
-  // 최종 행
-  const trFinal = document.createElement('tr');
-  trFinal.className = 'highlight-row';
-  trFinal.innerHTML = `<td><strong>최종 1주당 평가액</strong></td><td>${isMajor ? `할증(${Math.round(surchargeRate * 100)}%) 적용 후` : '기본 평가액'}</td><td class="num">${fmt(perShareFinal)} 원</td>`;
-  tbody.appendChild(trFinal);
-
-  // ── 순손익가치 계산 과정
-  const ppEl = document.getElementById('process-profit');
-  let ppHtml = '';
-  const yearLabels = ['T년도(최근, ×3)', 'T-1년도(×2)', 'T-2년도(×1)'];
-  profitData.forEach((d, i) => {
-    const yearVal = document.getElementById('year' + i).value || `T-${i}`;
-    ppHtml += `
-      <div class="calc-step">
-        <span class="calc-step-label">${yearVal} ${yearLabels[i]}</span>
-        <span class="calc-step-formula">(EBT ${fmtW(d.ebt)} − 법인세 ${fmtW(d.tax)}) − 비경상 ${fmtW(d.nonrec)}<br>= 순손익 ${fmtW(d.netIncome)} ÷ ${fmt(d.shares)}주</span>
-        <span class="calc-step-result">1주당 ${fmtW(d.perShare)}</span>
-      </div>`;
-  });
-  ppHtml += `
-    <div class="calc-step">
-      <span class="calc-step-label">가중 평균 1주당 순손익</span>
-      <span class="calc-step-formula">(${fmtW(profitData[0].perShare)}×3 + ${fmtW(profitData[1].perShare)}×2 + ${fmtW(profitData[2].perShare)}×1) ÷ 6</span>
-      <span class="calc-step-result">${fmtW(weightedPerShare)}</span>
-    </div>
-    <div class="calc-step">
-      <span class="calc-step-label">1주당 순손익가치</span>
-      <span class="calc-step-formula">${fmtW(weightedPerShare)} ÷ 환원율 10%</span>
-      <span class="calc-step-result">${fmtW(perShareProfitValue)}</span>
-    </div>`;
-  ppEl.innerHTML = ppHtml;
-
-  // ── 순자산가치 계산 과정
-  const paEl = document.getElementById('process-asset');
-  paEl.innerHTML = `
-    <div class="calc-step">
-      <span class="calc-step-label">자산총액</span>
-      <span class="calc-step-formula">재무상태표 자산 합계</span>
-      <span class="calc-step-result">${fmtW(totalAssets)}</span>
-    </div>
-    <div class="calc-step">
-      <span class="calc-step-label">차감: 자기주식</span>
-      <span class="calc-step-formula">순자산 산정 시 제외 (시행령 §55①)</span>
-      <span class="calc-step-result">− ${fmtW(treasuryStock)}</span>
-    </div>
-    <div class="calc-step">
-      <span class="calc-step-label">차감: 부채총액</span>
-      <span class="calc-step-formula">재무상태표 부채 합계</span>
-      <span class="calc-step-result">− ${fmtW(totalLiabilities)}</span>
-    </div>
-    <div class="calc-step">
-      <span class="calc-step-label">순자산</span>
-      <span class="calc-step-formula">${fmtW(totalAssets)} − ${fmtW(treasuryStock)} − ${fmtW(totalLiabilities)}</span>
-      <span class="calc-step-result">${fmtW(netAssets)}</span>
-    </div>
-    <div class="calc-step">
-      <span class="calc-step-label">1주당 순자산가치</span>
-      <span class="calc-step-formula">${fmtW(netAssets)} ÷ ${fmt(totalSharesBase)}주</span>
-      <span class="calc-step-result">${fmtW(perShareAssetValue)}</span>
-    </div>`;
-
-  // ── 최종 합산 과정
-  const pfEl = document.getElementById('process-final');
-  let pfHtml = `
-    <div class="calc-step">
-      <span class="calc-step-label">순손익가치</span>
-      <span class="calc-step-formula">1주당 ${fmtW(perShareProfitValue)} × ${Math.round(wProfit * 100)}%</span>
-      <span class="calc-step-result">${fmtW(perShareProfitValue * wProfit)}</span>
-    </div>
-    <div class="calc-step">
-      <span class="calc-step-label">순자산가치</span>
-      <span class="calc-step-formula">1주당 ${fmtW(perShareAssetValue)} × ${Math.round(wAsset * 100)}%</span>
-      <span class="calc-step-result">${fmtW(perShareAssetValue * wAsset)}</span>
-    </div>
-    <div class="calc-step">
-      <span class="calc-step-label">가중평균 주식가치</span>
-      <span class="calc-step-formula">${fmtW(perShareProfitValue * wProfit)} + ${fmtW(perShareAssetValue * wAsset)}</span>
-      <span class="calc-step-result">${fmtW(blendedRaw)}</span>
-    </div>`;
-  if (floorApplied) {
-    pfHtml += `
-    <div class="calc-step" style="background:#fff8e6; border-radius:6px; padding:10px 12px;">
-      <span class="calc-step-label" style="color:#c0392b;">⚠ 하한 적용</span>
-      <span class="calc-step-formula">가중평균(${fmtW(blendedRaw)}) < 순자산가치×80%(${fmtW(floorValue)})<br>→ 순자산가치의 80% 적용 (시행령 §54②)</span>
-      <span class="calc-step-result" style="color:#c0392b;">${fmtW(floorValue)}</span>
-    </div>`;
-  }
-  if (isMajor) {
-    pfHtml += `
-    <div class="calc-step">
-      <span class="calc-step-label">최대주주 할증</span>
-      <span class="calc-step-formula">${fmtW(perShareBase)} × ${Math.round(surchargeRate * 100)}% (상증세법 §63③${surchargeRate === 0.30 ? ', 50% 초과 → 30%' : ', 20%'})</span>
-      <span class="calc-step-result">+ ${fmtW(perShareBase * surchargeRate)}</span>
-    </div>`;
-  }
-  pfHtml += `
-    <div class="calc-step" style="border-top:2px solid var(--navy); margin-top:8px; padding-top:16px;">
-      <span class="calc-step-label"><strong>최종 1주당 평가액</strong></span>
-      <span class="calc-step-formula"><strong>상기 합산 결과</strong></span>
-      <span class="calc-step-result" style="color:var(--navy-deep); font-size:15px;"><strong>${fmtW(perShareFinal)}</strong></span>
-    </div>
-    <div class="calc-step">
-      <span class="calc-step-label">보유주식 총 평가액</span>
-      <span class="calc-step-formula">${fmtW(perShareFinal)} × ${fmt(ownedShares)}주</span>
-      <span class="calc-step-result">${fmtW(totalValue)}</span>
-    </div>`;
-  pfEl.innerHTML = pfHtml;
-
-  // 모든 process 패널 열기
-  document.querySelectorAll('.process-toggle').forEach(t => {
-    t.classList.add('open');
-    t.nextElementSibling.classList.add('open');
-  });
-}
-
-// ─────────────────────────────────────────────
-// 초기화
-// ─────────────────────────────────────────────
-function fillSample() {
-  // 샘플: J주식회사 3개년 재무 데이터
-  document.getElementById('companyName').value = 'J주식회사';
-  document.getElementById('baseDate').value = '2024-12-31';
-  document.getElementById('totalShares').value = '100,000';
-  document.getElementById('ownedShares').value = '10,000';
-  document.getElementById('year0').value = '2024';
-  document.getElementById('year1').value = '2023';
-  document.getElementById('year2').value = '2022';
-  // T년도
-  document.getElementById('ebt0').value = '500,000,000';
-  document.getElementById('tax0').value = '100,000,000';
-  document.getElementById('nonrec0').value = '0';
-  // T-1년도
-  document.getElementById('ebt1').value = '400,000,000';
-  document.getElementById('tax1').value = '80,000,000';
-  document.getElementById('nonrec1').value = '0';
-  // T-2년도
-  document.getElementById('ebt2').value = '300,000,000';
-  document.getElementById('tax2').value = '60,000,000';
-  document.getElementById('nonrec2').value = '0';
-  // 순자산
-  document.getElementById('totalAssets').value = '5,000,000,000';
-  document.getElementById('totalLiabilities').value = '2,000,000,000';
-  document.getElementById('treasuryStock').value = '0';
-  alert('샘플 데이터가 입력되었습니다. 확인 후 [가치평가 계산하기]를 클릭하세요.');
-}
-
-function resetAll() {
-  if (!confirm('입력한 모든 데이터를 초기화하겠습니까?')) return;
-  document.querySelectorAll('input[type="text"], input[type="date"]').forEach(el => el.value = '');
-  document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
-  document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
-  document.getElementById('majorRateGroup').style.display = 'none';
-  document.getElementById('result-section').style.display = 'none';
-  document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('show'));
-  document.querySelectorAll('input.error').forEach(el => el.classList.remove('error'));
-  // 첫 번째 탭 활성화
-  document.querySelectorAll('.year-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
-  document.querySelectorAll('.year-panel').forEach((p, i) => p.classList.toggle('active', i === 0));
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// 오늘 날짜 기본값
-const _today = new Date();
-  const _yyyy = _today.getFullYear();
-  const _mm = String(_today.getMonth() + 1).padStart(2, '0');
-  const _dd = String(_today.getDate()).padStart(2, '0');
-  document.getElementById('baseDate').value = _yyyy + '-' + _mm + '-' + _dd;
-</script>
-
+<script src="valuation.js"></script>
 </body>
 </html>
